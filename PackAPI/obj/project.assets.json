@@ -3916,11 +3916,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/ethangormley/Desktop/packCalc/CRUD/fianl-afaalinaa/PackAPI/PackAPI.csproj",
+      "projectUniqueName": "/Volumes/MacXdrive/PackingPal/packingPal/PackAPI/PackAPI.csproj",
       "projectName": "PackAPI",
-      "projectPath": "/Users/ethangormley/Desktop/packCalc/CRUD/fianl-afaalinaa/PackAPI/PackAPI.csproj",
+      "projectPath": "/Volumes/MacXdrive/PackingPal/packingPal/PackAPI/PackAPI.csproj",
       "packagesPath": "/Users/ethangormley/.nuget/packages/",
-      "outputPath": "/Users/ethangormley/Desktop/packCalc/CRUD/fianl-afaalinaa/PackAPI/obj/",
+      "outputPath": "/Volumes/MacXdrive/PackingPal/packingPal/PackAPI/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/ethangormley/.nuget/NuGet/NuGet.Config"
@@ -3989,7 +3989,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.200/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.202/RuntimeIdentifierGraph.json"
       }
     }
   }
