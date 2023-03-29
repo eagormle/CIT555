@@ -3,12 +3,12 @@ using PackAPI.Models;
 
 namespace PackAPI.Interfaces
 {
-    public interface IUserRepository
+    public interface IListRepository
     {
-        Task<User> GetByIdAsync(Guid id);
-        Task<User> GetByUsernameAsync(string username);
-        Task AddAsync(User user);
-        Task UpdateAsync(User user);
+        Task<ListBody> GetByIdAsync(Guid id);
+        Task<IEnumerable<ListBody>> GetByListIdAsync(Guid listId);
+        Task AddAsync(ListBody listBody);
+        Task UpdateAsync(ListBody listBody);
         Task DeleteAsync(Guid id);
     }
 }

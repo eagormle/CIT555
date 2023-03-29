@@ -25,4 +25,23 @@
   <ItemGroup>
     <Folder Include="Controllers\" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Interfaces\._ICommentDislikeRepository.cs" />
+    <Compile Remove="Interfaces\._ICommentLikeRepository.cs" />
+    <Compile Remove="Interfaces\._ICommentRepository.cs" />
+    <Compile Remove="Interfaces\._IUserRepository.cs" />
+    <Compile Remove="Interfaces\._IListRepository.cs" />
+    <Compile Remove="Interfaces\._IListBodyRepository.cs" />
+    <Compile Remove="Interfaces\._IReplyRepository.cs" />
+    <Compile Remove="Interfaces\._IReplyLikeRepository.cs" />
+    <Compile Remove="Interfaces\._IReplyDislikeRepository.cs" />
+    <Compile Remove="Repositories\._ListRepository.cs" />
+    <Compile Remove="Repositories\._UserRepository.cs" />
+    <Compile Remove="Controllers\._UserController.cs" />
+    <Compile Remove="._Program.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="Properties\._launchSettings.json" />
+    <Content Remove="._appsettings.json" />
+  </ItemGroup>
 </Project>

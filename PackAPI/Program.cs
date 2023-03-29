@@ -1,7 +1,7 @@
-using PackAPIAPI.Models;
+using PackAPI.Interfaces;
+using PackAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using System.Configuration;
 
 var corsapp = "_corsapp";
 
@@ -20,36 +20,28 @@ builder.Services.AddCors(options =>
                       });
 });
 
-// Add services to the container.
-//test
-
-
-
 builder.Services.AddControllers();
-
-//builder.Services.AddDbContext<ApplicationContext>(options =>
-//options.UseSqlServer(
-//    builder.Configuration.GetConnectionString("DefaultConnection"),
-//    b => b.MigrationsAssembly(typeof(ApplicationContext).Assembly.FullName)));
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-//connection to ORdersDb on local sqlserer
-builder.Services.AddDbContext<ApplicationContext>(options =>
-options.UseSqlServer(connectionString));
+//builder.Services.AddDbContext<ApplicationContext>(options =>
+//options.UseSqlServer(connectionString));
 
-
-
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-builder.Services.AddTransient<IOrderRepository, OrderRepository>();
+//builder.Services.AddTransient<IUserRepository, UserRepository>();
+//builder.Services.AddTransient<IListRepository, ListRepository>();
+//builder.Services.AddTransient<IListBodyRepository, ListBodyRepository>();
+//builder.Services.AddTransient<ICommentRepository, CommentRepository>();
+//builder.Services.AddTransient<IReplyRepository, ReplyRepository>();
+//builder.Services.AddTransient<ICommentLikeRepository, CommentLikeRepository>();
+//builder.Services.AddTransient<ICommentDislikeRepository, CommentDislikeRepository>();
+//builder.Services.AddTransient<IReplyLikeRepository, ReplyLikeRepository>();
+//builder.Services.AddTransient<IReplyDislikeRepository, ReplyDislikeRepository>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
