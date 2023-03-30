@@ -74,3 +74,5 @@
 /Volumes/MacXdrive/PackingPal/packingPal/PackAPI/obj/Debug/net7.0/PackAPI.pdb
 /Volumes/MacXdrive/PackingPal/packingPal/PackAPI/obj/Debug/net7.0/PackAPI.genruntimeconfig.cache
 /Volumes/MacXdrive/PackingPal/packingPal/PackAPI/obj/Debug/net7.0/ref/PackAPI.dll
+/Volumes/MacXdrive/PackingPal/packingPal/PackAPI/bin/Debug/net7.0/Docker.DotNet.dll
+/Volumes/MacXdrive/PackingPal/packingPal/PackAPI/bin/Debug/net7.0/Newtonsoft.Json.dll

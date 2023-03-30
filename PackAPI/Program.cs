@@ -1,59 +1,67 @@
 using PackAPI.Interfaces;
-using PackAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Microsoft.Extensions.Options;
+using PackAPI.Settings;
 
-var corsapp = "_corsapp";
-
-var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddCors(options =>
+namespace PackAPI
 {
-    options.AddPolicy(name: corsapp,
-                      policy =>
-                      {
-                          policy.WithOrigins("*")
-                                               .AllowAnyHeader()
-                                               .AllowAnyMethod()
-                                               .AllowAnyOrigin();
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            var builder = WebApplication.CreateBuilder(args);
 
-                      });
-});
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy(name: "_corsapp",
+                                  policy =>
+                                  {
+                                      policy.WithOrigins("*")
+                                            .AllowAnyHeader()
+                                            .AllowAnyMethod()
+                                            .AllowAnyOrigin();
+                                  });
+            });
 
-builder.Services.AddControllers();
+            builder.Services.AddControllers();
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-//builder.Services.AddDbContext<ApplicationContext>(options =>
-//options.UseSqlServer(connectionString));
+            // Register and bind DatabaseSettings
+            builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection("DatabaseSettings"));
+            builder.Services.AddSingleton(x => x.GetRequiredService<IOptions<DatabaseSettings>>().Value);
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
 
-//builder.Services.AddTransient<IUserRepository, UserRepository>();
-//builder.Services.AddTransient<IListRepository, ListRepository>();
-//builder.Services.AddTransient<IListBodyRepository, ListBodyRepository>();
-//builder.Services.AddTransient<ICommentRepository, CommentRepository>();
-//builder.Services.AddTransient<IReplyRepository, ReplyRepository>();
-//builder.Services.AddTransient<ICommentLikeRepository, CommentLikeRepository>();
-//builder.Services.AddTransient<ICommentDislikeRepository, CommentDislikeRepository>();
-//builder.Services.AddTransient<IReplyLikeRepository, ReplyLikeRepository>();
-//builder.Services.AddTransient<IReplyDislikeRepository, ReplyDislikeRepository>();
+            builder.Services.AddTransient<IUserRepository, UserRepository>();
+            //builder.Services.AddTransient<IListRepository, ListRepository>();
+            //builder.Services.AddTransient<IListBodyRepository, ListBodyRepository>();
+            //builder.Services.AddTransient<ICommentRepository, CommentRepository>();
+            //builder.Services.AddTransient<IReplyRepository, ReplyRepository>();
+            //builder.Services.AddTransient<ICommentLikeRepository, CommentLikeRepository>();
+            //builder.Services.AddTransient<ICommentDislikeRepository, CommentDislikeRepository>();
+            //builder.Services.AddTransient<IReplyLikeRepository, ReplyLikeRepository>();
+            //builder.Services.AddTransient<IReplyDislikeRepository, ReplyDislikeRepository>();
 
-var app = builder.Build();
+            var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
+
+            app.UseHttpsRedirection();
+
+            app.UseCors("_corsapp");
+
+            app.UseAuthorization();
+
+            app.MapControllers();
+
+            app.Run();
+        }
+    }
 }
-
-app.UseHttpsRedirection();
-
-app.UseCors(corsapp);
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();

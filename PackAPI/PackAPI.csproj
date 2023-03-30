@@ -17,13 +17,17 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="Docker.DotNet" Version="3.125.13" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="Controllers\" />
+    <None Remove="Settings\" />
+    <None Remove="._Settings" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
+    <Folder Include="Settings\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Interfaces\._ICommentDislikeRepository.cs" />
@@ -39,6 +43,8 @@
     <Compile Remove="Repositories\._UserRepository.cs" />
     <Compile Remove="Controllers\._UserController.cs" />
     <Compile Remove="._Program.cs" />
+    <Compile Remove="Models\._ApplicationContext.cs" />
+    <Compile Remove="Settings\._DataBassSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="Properties\._launchSettings.json" />
