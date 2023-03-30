@@ -5,10 +5,10 @@ namespace PackAPI.Interfaces
 {
     public interface IListRepository
     {
+        Task<IEnumerable<ListBody>> GetAllAsync(string username);
         Task<ListBody> GetByIdAsync(Guid id);
-        Task<IEnumerable<ListBody>> GetByListIdAsync(Guid listId);
-        Task AddAsync(ListBody listBody);
-        Task UpdateAsync(ListBody listBody);
+        Task AddAsync(ListBody list);
+        Task UpdateAsync(ListBody list);
         Task DeleteAsync(Guid id);
     }
 }
