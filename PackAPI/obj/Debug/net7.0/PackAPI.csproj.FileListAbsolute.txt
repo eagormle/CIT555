@@ -154,3 +154,9 @@
 /Users/ethangormley/packingUI/PackAPI/obj/Debug/net7.0/PackAPI.csproj.CopyComplete
 /Users/ethangormley/packingUI/PackAPI/obj/Debug/net7.0/PackAPI.genruntimeconfig.cache
 /Users/ethangormley/packingUI/PackAPI/obj/Debug/net7.0/ref/PackAPI.dll
+/Users/ethangormley/packingUI/PackAPI/bin/Debug/net7.0/System.Data.SqlClient.dll
+/Users/ethangormley/packingUI/PackAPI/bin/Debug/net7.0/runtimes/win-arm64/native/sni.dll
+/Users/ethangormley/packingUI/PackAPI/bin/Debug/net7.0/runtimes/win-x64/native/sni.dll
+/Users/ethangormley/packingUI/PackAPI/bin/Debug/net7.0/runtimes/win-x86/native/sni.dll
+/Users/ethangormley/packingUI/PackAPI/bin/Debug/net7.0/runtimes/unix/lib/netcoreapp2.1/System.Data.SqlClient.dll
+/Users/ethangormley/packingUI/PackAPI/bin/Debug/net7.0/runtimes/win/lib/netcoreapp2.1/System.Data.SqlClient.dll
