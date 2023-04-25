@@ -1,20 +1,72 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using PackAPI.Interfaces;
+using PackAPI.Models;
 
 namespace PackAPI.Controllers
 {
-    public class HomeController : Controller
+    [ApiController]
+    [Route("api/lists")]
+    public class ListsController : ControllerBase
     {
-        // GET: /<controller>/
-        public IActionResult Index()
+        private readonly IListRepository _listRepository;
+
+        public ListsController(IListRepository listRepository)
         {
-            return View();
+            _listRepository = listRepository;
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<List>> GetListById(Guid id)
+        {
+            var list = await _listRepository.GetByIdAsync(id);
+            if (list == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(list);
+        }
+
+        //[HttpGet("user/{userId}")]
+        //public async Task<ActionResult> GetListsByUserId(Guid userId)
+        //{
+        //    var lists = await _listRepository.GetByUserIdAsync(userId);
+        //    return Ok(lists);
+        //}
+
+        [HttpGet("user/{username}")]
+        public async Task<ActionResult> GetListsByUsername(string username)
+        {
+            var lists = await _listRepository.GetAllAsync(username);
+            return Ok(lists);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CreateList(List list)
+        {
+            await _listRepository.AddAsync(list);
+            return CreatedAtAction(nameof(GetListById), new { id = list.ListId }, list);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdateList(Guid id, List list)
+        {
+            if (id != list.ListId)
+            {
+                return BadRequest();
+            }
+
+            await _listRepository.UpdateAsync(list);
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteList(Guid id)
+        {
+            await _listRepository.DeleteAsync(id);
+            return NoContent();
         }
     }
 }
-

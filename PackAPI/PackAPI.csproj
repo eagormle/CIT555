@@ -45,6 +45,7 @@
     <Compile Remove="._Program.cs" />
     <Compile Remove="Models\._ApplicationContext.cs" />
     <Compile Remove="Settings\._DataBassSettings.cs" />
+    <Compile Remove="Controllers\._ListController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="Properties\._launchSettings.json" />

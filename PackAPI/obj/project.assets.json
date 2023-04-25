@@ -3992,11 +3992,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Volumes/MacXdrive/PackingPal/packingPal/PackAPI/PackAPI.csproj",
+      "projectUniqueName": "/Users/ethangormley/packingUI/PackAPI/PackAPI.csproj",
       "projectName": "PackAPI",
-      "projectPath": "/Volumes/MacXdrive/PackingPal/packingPal/PackAPI/PackAPI.csproj",
+      "projectPath": "/Users/ethangormley/packingUI/PackAPI/PackAPI.csproj",
       "packagesPath": "/Users/ethangormley/.nuget/packages/",
-      "outputPath": "/Volumes/MacXdrive/PackingPal/packingPal/PackAPI/obj/",
+      "outputPath": "/Users/ethangormley/packingUI/PackAPI/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/ethangormley/.nuget/NuGet/NuGet.Config"

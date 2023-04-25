@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "RfAQ7qFBlocihRe+bS806JvhPRDQ0VPxzzvSlxWWDt7QnBqW/U1F35VWsvBTLDG0iXWw0Nr+7P3dk6rI3yibkQ==",
+  "dgSpecHash": "ntrmY+USGB5XVgVPJ6c+jLqaXfkrbyaJiht7alrOGgJ0HpD4USTrKKysftVSiH/dMWXQuMQ333c4t2jQdkqQXw==",
   "success": true,
-  "projectFilePath": "/Volumes/MacXdrive/PackingPal/packingPal/PackAPI/PackAPI.csproj",
+  "projectFilePath": "/Users/ethangormley/packingUI/PackAPI/PackAPI.csproj",
   "expectedPackageFiles": [
     "/Users/ethangormley/.nuget/packages/azure.core/1.24.0/azure.core.1.24.0.nupkg.sha512",
     "/Users/ethangormley/.nuget/packages/azure.identity/1.6.0/azure.identity.1.6.0.nupkg.sha512",

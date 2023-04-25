@@ -12,6 +12,35 @@ public class ListRepository : IListRepository
         _dbConnection = new SqlConnection(connectionString);
     }
 
+    public async Task<IEnumerable<List>> GetAllAsync(string username)
+    {
+        var lists = new List<List>();
+
+        await using var cmd = new SqlCommand("SELECT * FROM Lists WHERE Username = @username", _dbConnection);
+        cmd.Parameters.AddWithValue("@username", username);
+
+        await _dbConnection.OpenAsync();
+        var reader = await cmd.ExecuteReaderAsync();
+
+        while (await reader.ReadAsync())
+        {
+            var list = new List
+            {
+                ListId = reader.GetGuid(reader.GetOrdinal("Id")),
+                ListName = reader.GetString(reader.GetOrdinal("Name")),
+                //Description = reader.GetString(reader.GetOrdinal("Description")), future feature
+                CreatedAt = reader.GetDateTime(reader.GetOrdinal("CreatedAt")),
+                //UpdatedAt = reader.GetDateTime(reader.GetOrdinal("UpdatedAt")), future implementation
+                UserId = reader.GetGuid(reader.GetOrdinal("UserId")),
+            };
+
+            lists.Add(list);
+        }
+
+        await _dbConnection.CloseAsync();
+        return lists;
+    }
+
     public async Task<List> GetByIdAsync(Guid id)
     {
         await using var cmd = new SqlCommand("SELECT * FROM Lists WHERE ListId = @id", _dbConnection);
@@ -103,25 +132,6 @@ public class ListRepository : IListRepository
         await _dbConnection.CloseAsync();
     }
 
-    Task<ListBody> IListRepository.GetByIdAsync(Guid id)
-    {
-        throw new NotImplementedException();
-    }
-
-    Task<IEnumerable<ListBody>> IListRepository.GetByListIdAsync(Guid listId)
-    {
-        throw new NotImplementedException();
-    }
-
-    Task IListRepository.AddAsync(ListBody listBody)
-    {
-        throw new NotImplementedException();
-    }
-
-    Task IListRepository.UpdateAsync(ListBody listBody)
-    {
-        throw new NotImplementedException();
-    }
 }
 
 
