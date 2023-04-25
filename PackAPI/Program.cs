@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Microsoft.Extensions.Options;
 using PackAPI.Settings;
+using Microsoft.Extensions.Configuration;
 
 namespace PackAPI
 {
@@ -36,7 +37,8 @@ namespace PackAPI
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddTransient<IUserRepository, UserRepository>();
-            //builder.Services.AddTransient<IListRepository, ListRepository>();
+            builder.Services.AddTransient<IListRepository>(provider =>
+                new ListRepository(builder.Configuration.GetConnectionString("DefaultConnection")));
             //builder.Services.AddTransient<IListBodyRepository, ListBodyRepository>();
             //builder.Services.AddTransient<ICommentRepository, CommentRepository>();
             //builder.Services.AddTransient<IReplyRepository, ReplyRepository>();
