@@ -12,4 +12,3 @@ namespace PackAPI.Interfaces
         Task DeleteAsync(Guid id);
     }
 }
-
