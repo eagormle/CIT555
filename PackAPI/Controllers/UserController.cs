@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PackAPI.Interfaces;
 using PackAPI.Models;
@@ -9,13 +10,13 @@ using PackAPI.Models;
 
 namespace PackAPI.Controllers
 {
-    [Route("api/users")]
+    [Route("api/user")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class UserController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
 
-        public UsersController(IUserRepository userRepository)
+        public UserController(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }
@@ -34,9 +35,9 @@ namespace PackAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddAsync(User user)
+        public async Task<ActionResult> AddAsync(User user, String password)
         {
-            await _userRepository.AddAsync(user);
+            await _userRepository.AddAsync(user, password);
 
             return CreatedAtAction(nameof(GetByIdAsync), new { id = user.UserId }, user);
         }

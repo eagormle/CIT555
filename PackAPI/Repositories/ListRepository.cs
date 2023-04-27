@@ -16,7 +16,7 @@ public class ListRepository : IListRepository
     {
         var lists = new List<List>();
 
-        await using var cmd = new SqlCommand("SELECT * FROM Lists WHERE Username = @username", _dbConnection);
+        await using var cmd = new SqlCommand("SELECT * FROM [List] WHERE Username = @username", _dbConnection);
         cmd.Parameters.AddWithValue("@username", username);
 
         await _dbConnection.OpenAsync();
@@ -43,7 +43,7 @@ public class ListRepository : IListRepository
 
     public async Task<List> GetByIdAsync(Guid id)
     {
-        await using var cmd = new SqlCommand("SELECT * FROM Lists WHERE ListId = @id", _dbConnection);
+        await using var cmd = new SqlCommand("SELECT * FROM [List] WHERE ListId = @id", _dbConnection);
         cmd.Parameters.AddWithValue("@id", id);
 
         await _dbConnection.OpenAsync();
@@ -73,7 +73,7 @@ public class ListRepository : IListRepository
     {
         var lists = new List<List>();
 
-        await using var cmd = new SqlCommand("SELECT * FROM Lists WHERE UserId = @userId", _dbConnection);
+        await using var cmd = new SqlCommand("SELECT * FROM [List] WHERE UserId = @userId", _dbConnection);
         cmd.Parameters.AddWithValue("@userId", userId);
 
         await _dbConnection.OpenAsync();
@@ -98,11 +98,9 @@ public class ListRepository : IListRepository
 
     public async Task AddAsync(List list)
     {
-        await using var cmd = new SqlCommand("INSERT INTO Lists (ListId, UserId, ListName, CreatedAt) VALUES (@listId, @userId, @listName, @createdAt)", _dbConnection);
-        cmd.Parameters.AddWithValue("@listId", list.ListId);
+        await using var cmd = new SqlCommand("INSERT INTO [List] (UserId, ListName) VALUES (@userId, @listName)", _dbConnection);
         cmd.Parameters.AddWithValue("@userId", list.UserId);
         cmd.Parameters.AddWithValue("@listName", list.ListName);
-        cmd.Parameters.AddWithValue("@createdAt", list.CreatedAt);
 
         await _dbConnection.OpenAsync();
         await cmd.ExecuteNonQueryAsync();
@@ -111,7 +109,7 @@ public class ListRepository : IListRepository
 
     public async Task UpdateAsync(List list)
     {
-        await using var cmd = new SqlCommand("UPDATE Lists SET UserId = @userId, ListName = @listName, CreatedAt = @createdAt WHERE ListId = @listId", _dbConnection);
+        await using var cmd = new SqlCommand("UPDATE [List] SET UserId = @userId, ListName = @listName, CreatedAt = @createdAt WHERE ListId = @listId", _dbConnection);
         cmd.Parameters.AddWithValue("@listId", list.ListId);
         cmd.Parameters.AddWithValue("@userId", list.UserId);
         cmd.Parameters.AddWithValue("@listName", list.ListName);
@@ -124,7 +122,7 @@ public class ListRepository : IListRepository
 
     public async Task DeleteAsync(Guid id)
     {
-        await using var cmd = new SqlCommand("DELETE FROM Lists WHERE ListId = @id", _dbConnection);
+        await using var cmd = new SqlCommand("DELETE FROM [List] WHERE ListId = @id", _dbConnection);
         cmd.Parameters.AddWithValue("@id", id);
 
         await _dbConnection.OpenAsync();

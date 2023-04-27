@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Cryptography;
 using Microsoft.Data.SqlClient;
 using PackAPI.Interfaces;
 using PackAPI.Models;
@@ -16,7 +17,7 @@ public class UserRepository : IUserRepository
     public async Task<User> GetByIdAsync(Guid id)
     {
         using var connection = new SqlConnection(_connectionString);
-        using var cmd = new SqlCommand("SELECT * FROM Users WHERE UserId = @id", connection);
+        using var cmd = new SqlCommand("SELECT * FROM [User] WHERE UserId = @id", connection);
         cmd.Parameters.AddWithValue("@id", id);
 
         await connection.OpenAsync();
@@ -47,7 +48,7 @@ public class UserRepository : IUserRepository
     public async Task<User> GetByUsernameAsync(string username)
     {
         using var connection = new SqlConnection(_connectionString);
-        using var cmd = new SqlCommand("SELECT * FROM Users WHERE Username = @username", connection);
+        using var cmd = new SqlCommand("SELECT * FROM [User] WHERE Username = @username", connection);
         cmd.Parameters.AddWithValue("@username", username);
 
         await connection.OpenAsync();
@@ -75,14 +76,29 @@ public class UserRepository : IUserRepository
         return user;
     }
 
-    public async Task AddAsync(User user)
+    public async Task AddAsync(User user, string password)
     {
         using var connection = new SqlConnection(_connectionString);
-        using var cmd = new SqlCommand("INSERT INTO Users (UserId, Username, PasswordSalt, PasswordHash, IsAdmin, CreatedAt) VALUES (@userId, @username, @passwordSalt, @passwordHash, @isAdmin, @createdAt)", connection);
+        using var cmd = new SqlCommand("INSERT INTO [User] (UserId, Username, PasswordSalt, PasswordHash, IsAdmin, CreatedAt) VALUES (@userId, @username, @passwordSalt, @passwordHash, @isAdmin, @createdAt)", connection);
+
+        // Generate a random salt
+        byte[] salt = new byte[16];
+        using (var rng = new RNGCryptoServiceProvider())
+        {
+            rng.GetBytes(salt);
+        }
+
+        // Hash the user's password using the salt
+        byte[] hash;
+        using (var pbkdf2 = new Rfc2898DeriveBytes(password, salt, 10000))
+        {
+            hash = pbkdf2.GetBytes(32);
+        }
+
         cmd.Parameters.AddWithValue("@userId", user.UserId);
         cmd.Parameters.AddWithValue("@username", user.Username);
-        cmd.Parameters.AddWithValue("@passwordSalt", user.PasswordSalt);
-        cmd.Parameters.AddWithValue("@passwordHash", user.PasswordHash);
+        cmd.Parameters.AddWithValue("@passwordSalt", salt);
+        cmd.Parameters.AddWithValue("@passwordHash", hash);
         cmd.Parameters.AddWithValue("@isAdmin", user.IsAdmin);
         cmd.Parameters.AddWithValue("@createdAt", user.CreatedAt);
 
@@ -94,7 +110,7 @@ public class UserRepository : IUserRepository
     public async Task UpdateAsync(User user)
     {
         using var connection = new SqlConnection(_connectionString);
-        using var cmd = new SqlCommand("UPDATE Users SET Username = @username, PasswordSalt = @passwordSalt, PasswordHash = @passwordHash, IsAdmin = @isAdmin, CreatedAt = @createdAt WHERE UserId = @userId", connection);
+        using var cmd = new SqlCommand("UPDATE [User] SET Username = @username, PasswordSalt = @passwordSalt, PasswordHash = @passwordHash, IsAdmin = @isAdmin, CreatedAt = @createdAt WHERE UserId = @userId", connection);
         cmd.Parameters.AddWithValue("@userId", user.UserId);
         cmd.Parameters.AddWithValue("@username", user.Username);
         cmd.Parameters.AddWithValue("@passwordSalt", user.PasswordSalt);
@@ -110,7 +126,7 @@ public class UserRepository : IUserRepository
     public async Task DeleteAsync(Guid id)
     {
         using var connection = new SqlConnection(_connectionString);
-        using var cmd = new SqlCommand("DELETE FROM Users WHERE UserId = @id", connection);
+        using var cmd = new SqlCommand("DELETE FROM [User] WHERE UserId = @id", connection);
         cmd.Parameters.AddWithValue("@id", id);
 
         await connection.OpenAsync();

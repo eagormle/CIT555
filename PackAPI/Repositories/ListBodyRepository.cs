@@ -17,7 +17,7 @@ public class ListBodyRepository : IListBodyRepository
 
     public async Task<ListBody> GetByIdAsync(Guid id)
     {
-        await using var cmd = new SqlCommand("SELECT * FROM ListBodies WHERE ListBodyId = @id", _dbConnection);
+        await using var cmd = new SqlCommand("SELECT * FROM [ListBody] WHERE ListBodyId = @id", _dbConnection);
         cmd.Parameters.AddWithValue("@id", id);
 
         await _dbConnection.OpenAsync();
@@ -47,7 +47,7 @@ public class ListBodyRepository : IListBodyRepository
     {
         var listBodies = new List<ListBody>();
 
-        await using var cmd = new SqlCommand("SELECT * FROM ListBodies WHERE ListId = @listId", _dbConnection);
+        await using var cmd = new SqlCommand("SELECT * FROM [ListBody] WHERE ListId = @listId", _dbConnection);
         cmd.Parameters.AddWithValue("@listId", listId);
 
         await _dbConnection.OpenAsync();
@@ -72,7 +72,7 @@ public class ListBodyRepository : IListBodyRepository
 
     public async Task AddAsync(ListBody listBody)
     {
-        await using var cmd = new SqlCommand("INSERT INTO ListBodies (ListBodyId, ListId, Body, CreatedAt) VALUES (@listBodyId, @listId, @body, @createdAt)", _dbConnection);
+        await using var cmd = new SqlCommand("INSERT INTO [ListBody] (ListBodyId, ListId, Body, CreatedAt) VALUES (@listBodyId, @listId, @body, @createdAt)", _dbConnection);
         cmd.Parameters.AddWithValue("@listBodyId", listBody.ListBodyId);
         cmd.Parameters.AddWithValue("@listId", listBody.ListId);
         cmd.Parameters.AddWithValue("@body", listBody.ListBodyText);
@@ -85,7 +85,7 @@ public class ListBodyRepository : IListBodyRepository
 
     public async Task UpdateAsync(ListBody listBody)
     {
-        await using var cmd = new SqlCommand("UPDATE ListBodies SET ListId = @listId, Body = @body, CreatedAt = @createdAt WHERE ListBodyId = @listBodyId", _dbConnection);
+        await using var cmd = new SqlCommand("UPDATE [ListBody] SET ListId = @listId, Body = @body, CreatedAt = @createdAt WHERE ListBodyId = @listBodyId", _dbConnection);
         cmd.Parameters.AddWithValue("@listBodyId", listBody.ListBodyId);
         cmd.Parameters.AddWithValue("@listId", listBody.ListId);
         cmd.Parameters.AddWithValue("@body", listBody.ListBodyText);
@@ -97,7 +97,7 @@ public class ListBodyRepository : IListBodyRepository
     }
     public async Task DeleteAsync(Guid id)
 {
-    await using var cmd = new SqlCommand("DELETE FROM ListBodies WHERE ListBodyId = @id", _dbConnection);
+    await using var cmd = new SqlCommand("DELETE FROM [ListBody] WHERE ListBodyId = @id", _dbConnection);
     cmd.Parameters.AddWithValue("@id", id);
 
     await _dbConnection.OpenAsync();

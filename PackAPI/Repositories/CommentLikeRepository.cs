@@ -19,7 +19,7 @@ namespace PackAPI.Repositories
 
         public async Task<CommentLike> GetByIdAsync(Guid id)
         {
-            await using var cmd = new SqlCommand("SELECT * FROM CommentLikes WHERE CommentLikeId = @id", _dbConnection);
+            await using var cmd = new SqlCommand("SELECT * FROM [CommentLike] WHERE CommentLikeId = @id", _dbConnection);
             cmd.Parameters.AddWithValue("@id", id);
 
             await _dbConnection.OpenAsync();
@@ -49,7 +49,7 @@ namespace PackAPI.Repositories
         {
             var commentLikes = new List<CommentLike>();
 
-            await using var cmd = new SqlCommand("SELECT * FROM CommentLikes WHERE CommentId = @commentId", _dbConnection);
+            await using var cmd = new SqlCommand("SELECT * FROM [CommentLike] WHERE CommentId = @commentId", _dbConnection);
             cmd.Parameters.AddWithValue("@commentId", commentId);
 
             await _dbConnection.OpenAsync();
@@ -74,7 +74,7 @@ namespace PackAPI.Repositories
 
         public async Task AddAsync(CommentLike commentLike)
         {
-            await using var cmd = new SqlCommand("INSERT INTO CommentLikes (CommentLikeId, CommentId, UserId, CreatedAt) VALUES (@commentLikeId, @commentId, @userId, @createdAt)", _dbConnection);
+            await using var cmd = new SqlCommand("INSERT INTO [CommentLike] (CommentLikeId, CommentId, UserId, CreatedAt) VALUES (@commentLikeId, @commentId, @userId, @createdAt)", _dbConnection);
             cmd.Parameters.AddWithValue("@commentLikeId", commentLike.CommentLikeId);
             cmd.Parameters.AddWithValue("@commentId", commentLike.CommentId);
             cmd.Parameters.AddWithValue("@userId", commentLike.UserId);
@@ -87,7 +87,7 @@ namespace PackAPI.Repositories
 
         public async Task DeleteAsync(Guid id)
         {
-            await using var cmd = new SqlCommand("DELETE FROM CommentLikes WHERE CommentLikeId = @id", _dbConnection);
+            await using var cmd = new SqlCommand("DELETE FROM [CommentLike] WHERE CommentLikeId = @id", _dbConnection);
             cmd.Parameters.AddWithValue("@id", id);
 
             await _dbConnection.OpenAsync();

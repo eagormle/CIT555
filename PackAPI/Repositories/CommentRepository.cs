@@ -19,7 +19,7 @@ namespace PackAPI.Repositories
 
         public async Task<Comment> GetByIdAsync(Guid id)
         {
-            await using var cmd = new SqlCommand("SELECT * FROM Comments WHERE CommentId = @id", _dbConnection);
+            await using var cmd = new SqlCommand("SELECT * FROM [Comment] WHERE CommentId = @id", _dbConnection);
             cmd.Parameters.AddWithValue("@id", id);
 
             await _dbConnection.OpenAsync();
@@ -51,7 +51,7 @@ namespace PackAPI.Repositories
         {
             var comments = new List<Comment>();
 
-            await using var cmd = new SqlCommand("SELECT * FROM Comments WHERE ListId = @listId", _dbConnection);
+            await using var cmd = new SqlCommand("SELECT * FROM [Comment] WHERE ListId = @listId", _dbConnection);
             cmd.Parameters.AddWithValue("@listId", listId);
 
             await _dbConnection.OpenAsync();
@@ -78,7 +78,7 @@ namespace PackAPI.Repositories
 
         public async Task AddAsync(Comment comment)
         {
-            await using var cmd = new SqlCommand("INSERT INTO Comments (CommentId, ListId, UserId, ListBodyId, CommentText, CreatedAt) VALUES (@commentId, @listId, @userId, @listBodyId, @commentText, @createdAt)", _dbConnection);
+            await using var cmd = new SqlCommand("INSERT INTO [Comment] (CommentId, ListId, UserId, ListBodyId, CommentText, CreatedAt) VALUES (@commentId, @listId, @userId, @listBodyId, @commentText, @createdAt)", _dbConnection);
             cmd.Parameters.AddWithValue("@commentId", comment.CommentId);
             cmd.Parameters.AddWithValue("@listId", comment.ListId);
             cmd.Parameters.AddWithValue("@userId", comment.UserId);
@@ -92,7 +92,7 @@ namespace PackAPI.Repositories
         }
         public async Task UpdateAsync(Comment comment)
         {
-            await using var cmd = new SqlCommand("UPDATE Comments SET ListId = @listId, UserId = @userId, ListBodyId = @listBodyId, CommentText = @commentText, CreatedAt = @createdAt WHERE CommentId = @commentId", _dbConnection);
+            await using var cmd = new SqlCommand("UPDATE [Comment] SET ListId = @listId, UserId = @userId, ListBodyId = @listBodyId, CommentText = @commentText, CreatedAt = @createdAt WHERE CommentId = @commentId", _dbConnection);
             cmd.Parameters.AddWithValue("@commentId", comment.CommentId);
             cmd.Parameters.AddWithValue("@listId", comment.ListId);
             cmd.Parameters.AddWithValue("@userId", comment.UserId);
@@ -106,7 +106,7 @@ namespace PackAPI.Repositories
         }
         public async Task DeleteAsync(Guid id)
         {
-            await using var cmd = new SqlCommand("DELETE FROM Comments WHERE CommentId = @id", _dbConnection);
+            await using var cmd = new SqlCommand("DELETE FROM [Comment] WHERE CommentId = @id", _dbConnection);
             cmd.Parameters.AddWithValue("@id", id);
 
             await _dbConnection.OpenAsync();
