@@ -4,6 +4,7 @@ using PackAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using PackAPI.Utils;
 
 namespace PackAPI.Controllers
 {
@@ -43,8 +44,15 @@ namespace PackAPI.Controllers
 
         // POST: api/ListBody
         [HttpPost]
-        public async Task<ActionResult<ListBody>> AddAsync(ListBody listBody)
+        public async Task<ActionResult<ListBody>> AddAsync([FromBody] CreateListBodyRequest request)
         {
+            var listBody = new ListBody
+            {
+                ListId = request.ListId,
+                UserId = request.UserId,
+                ListBodyText = request.ListBodyText
+            };
+
             await _listBodyRepository.AddAsync(listBody);
 
             return CreatedAtAction(nameof(GetByIdAsync), new { id = listBody.ListBodyId }, listBody);

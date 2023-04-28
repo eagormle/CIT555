@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PackAPI.Interfaces;
 using PackAPI.Models;
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using PackAPI.Utils;
 
 namespace PackAPI.Controllers
 {
@@ -73,7 +73,12 @@ namespace PackAPI.Controllers
 
                 await _userRepository.AddAsync(user);
 
-                return CreatedAtAction(nameof(GetByIdAsync), new { id = user.UserId }, user);
+                return new JsonResult(new
+                {
+                    Message = "User created successfully",
+                    UserId = user.UserId,
+                    Username = user.Username
+                });
             }
             catch (Exception ex)
             {

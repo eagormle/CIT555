@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PackAPI.Interfaces;
 using PackAPI.Models;
+using PackAPI.Utils;
 
 namespace PackAPI.Controllers
 {
@@ -44,8 +45,14 @@ namespace PackAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateList(List list)
+        public async Task<ActionResult> CreateList([FromBody] CreateListRequest request)
         {
+            var list = new List
+            {
+                UserId = request.UserId,
+                ListName = request.ListName
+            };
+
             await _listRepository.AddAsync(list);
             return CreatedAtAction(nameof(GetListById), new { id = list.ListId }, list);
         }

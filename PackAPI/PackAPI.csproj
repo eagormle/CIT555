@@ -25,10 +25,12 @@
     <None Remove="Controllers\" />
     <None Remove="Settings\" />
     <None Remove="._Settings" />
+    <None Remove="Utils\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
     <Folder Include="Settings\" />
+    <Folder Include="Utils\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Interfaces\._ICommentDislikeRepository.cs" />

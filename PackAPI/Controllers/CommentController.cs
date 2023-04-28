@@ -4,6 +4,7 @@ using PackAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using PackAPI.Utils;
 
 namespace PackAPI.Controllers
 {
@@ -40,8 +41,16 @@ namespace PackAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Comment>> AddAsync([FromBody] Comment comment)
+        public async Task<ActionResult<Comment>> AddAsync([FromBody] CreateCommentRequest request)
         {
+            var comment = new Comment
+            {
+                ListId = request.ListId,
+                ListBodyId = request.ListBodyId,
+                UserId = request.UserId,
+                CommentText = request.CommentText
+            };
+
             await _commentRepository.AddAsync(comment);
 
             return CreatedAtAction(nameof(GetByIdAsync), new { id = comment.CommentId }, comment);

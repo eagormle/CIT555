@@ -1,4 +1,5 @@
-﻿namespace PackAPI.Models
+﻿using System;
+namespace PackAPI.Utils
 {
     public class CreateUserRequest
     {

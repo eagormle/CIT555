@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PackAPI.Interfaces;
 using PackAPI.Models;
+using PackAPI.Utils;
 
 namespace PackAPI.Controllers
 {
@@ -30,14 +31,17 @@ namespace PackAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<CommentLike>> Create(Guid commentId, CommentLike commentLike)
+        public async Task<ActionResult<CommentLike>> Create([FromBody] CreateCommentLikeRequest request)
         {
-            commentLike.CommentId = commentId;
-            commentLike.CreatedAt = DateTime.UtcNow;
+            var commentLike = new CommentLike
+            {
+                CommentId = request.CommentId,
+                UserId = request.UserId
+            };
 
             await _commentLikeRepository.AddAsync(commentLike);
 
-            return CreatedAtAction(nameof(GetById), new { commentId = commentId, id = commentLike.CommentLikeId }, commentLike);
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
