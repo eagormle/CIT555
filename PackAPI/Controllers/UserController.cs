@@ -108,8 +108,8 @@ namespace PackAPI.Controllers
                 return new JsonResult(new
                 {
                     Message = "User created successfully!",
-                    UserId = user.UserId,
-                    Username = user.Username
+                    user.UserId,
+                    user.Username
                 });
             }
             catch (Exception ex)

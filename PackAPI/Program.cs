@@ -39,6 +39,7 @@ namespace PackAPI
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddTransient<IUserRepository, UserRepository>();
+            builder.Services.AddTransient<IUserService, UserService>();
             builder.Services.AddTransient<IListRepository>(provider =>
                 new ListRepository(builder.Configuration.GetConnectionString("DefaultConnection")));
             builder.Services.AddTransient<IListBodyRepository, ListBodyRepository>();
