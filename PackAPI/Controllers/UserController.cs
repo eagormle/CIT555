@@ -73,7 +73,9 @@ namespace PackAPI.Controllers
 
                 await _userRepository.AddAsync(user);
 
-                return CreatedAtAction(nameof(GetByIdAsync), new { id = user.UserId }, user);
+                //this return is broken, using no context for abit
+                //return CreatedAtAction(nameof(GetByIdAsync), new { id = user.UserId }, user);
+                return NoContent();
             }
             catch (Exception ex)
             {
