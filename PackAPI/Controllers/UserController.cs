@@ -16,10 +16,42 @@ namespace PackAPI.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
+        private readonly IUserService _userService;
 
-        public UserController(IUserRepository userRepository)
+        public UserController(IUserRepository userRepository, IUserService userService)
         {
             _userRepository = userRepository;
+            _userService = userService;
+        }
+
+        [HttpPost("login")]
+        public async Task<ActionResult> LoginAsync([FromBody] LoginRequest request)
+        {
+            try
+            {
+                var user = await _userRepository.GetByUsernameAsync(request.Username);
+
+                if (user != null && _userService.ValidatePassword(request.Password, user.PasswordSalt, user.PasswordHash))
+                {
+                    var token = _userService.GenerateJwtToken(user);
+
+                    return new JsonResult(new
+                    {
+                        Message = "Login successful",
+                        Token = token
+                    });
+                }
+                else
+                {
+                    return Unauthorized("Invalid username or password");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+
+                return BadRequest("An error occurred while processing the request.");
+            }
         }
 
         [HttpGet("{id}")]
