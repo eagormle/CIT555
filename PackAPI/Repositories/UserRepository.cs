@@ -30,7 +30,6 @@ public class UserRepository : IUserRepository
         }
 
         await reader.ReadAsync();
-
         var user = new User
         {
             UserId = reader.GetGuid(reader.GetOrdinal("UserId")),
@@ -38,13 +37,13 @@ public class UserRepository : IUserRepository
             PasswordSalt = (byte[])reader["PasswordSalt"],
             PasswordHash = (byte[])reader["PasswordHash"],
             IsAdmin = reader.GetBoolean(reader.GetOrdinal("IsAdmin")),
-            CreatedAt = reader.GetDateTime(reader.GetOrdinal("CreatedAt")),
+            CreatedAt = reader.GetDateTime(reader.GetOrdinal("CreatedAt"))
         };
 
         await connection.CloseAsync();
+
         return user;
     }
-
     public async Task<User> GetByUsernameAsync(string username)
     {
         using var connection = new SqlConnection(_connectionString);
@@ -76,29 +75,20 @@ public class UserRepository : IUserRepository
         return user;
     }
 
-    public async Task AddAsync(User user, string password)
+    public async Task AddAsync(User user)
     {
+        // Generate a new GUID for the UserId
+        user.UserId = Guid.NewGuid();
+
+        // Set the CreatedAt date to the current datetime
+        user.CreatedAt = DateTime.UtcNow;
+
         using var connection = new SqlConnection(_connectionString);
         using var cmd = new SqlCommand("INSERT INTO [User] (UserId, Username, PasswordSalt, PasswordHash, IsAdmin, CreatedAt) VALUES (@userId, @username, @passwordSalt, @passwordHash, @isAdmin, @createdAt)", connection);
-
-        // Generate a random salt
-        byte[] salt = new byte[16];
-        using (var rng = new RNGCryptoServiceProvider())
-        {
-            rng.GetBytes(salt);
-        }
-
-        // Hash the user's password using the salt
-        byte[] hash;
-        using (var pbkdf2 = new Rfc2898DeriveBytes(password, salt, 10000))
-        {
-            hash = pbkdf2.GetBytes(32);
-        }
-
         cmd.Parameters.AddWithValue("@userId", user.UserId);
         cmd.Parameters.AddWithValue("@username", user.Username);
-        cmd.Parameters.AddWithValue("@passwordSalt", salt);
-        cmd.Parameters.AddWithValue("@passwordHash", hash);
+        cmd.Parameters.AddWithValue("@passwordSalt", user.PasswordSalt);
+        cmd.Parameters.AddWithValue("@passwordHash", user.PasswordHash);
         cmd.Parameters.AddWithValue("@isAdmin", user.IsAdmin);
         cmd.Parameters.AddWithValue("@createdAt", user.CreatedAt);
 
