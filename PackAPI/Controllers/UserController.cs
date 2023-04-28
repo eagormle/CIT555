@@ -75,16 +75,17 @@ namespace PackAPI.Controllers
 
                 return new JsonResult(new
                 {
-                    Message = "User created successfully",
+                    Message = "User created successfully!",
                     UserId = user.UserId,
                     Username = user.Username
                 });
             }
             catch (Exception ex)
             {
-                // Log the exception message
-                Console.WriteLine(ex.Message);
-                throw;
+                return new JsonResult(new
+                {
+                    Message = "Error in User Creation!",
+                });
             }
         }
 
