@@ -98,7 +98,10 @@ public class ListRepository : IListRepository
 
     public async Task AddAsync(List list)
     {
-        await using var cmd = new SqlCommand("INSERT INTO [List] (UserId, ListName) VALUES (@userId, @listName)", _dbConnection);
+        list.ListId = Guid.NewGuid();
+
+        await using var cmd = new SqlCommand("INSERT INTO [List] (ListId, UserId, ListName) VALUES (@ListId, @userId, @listName)", _dbConnection);
+        cmd.Parameters.AddWithValue("@ListId", list.ListId);
         cmd.Parameters.AddWithValue("@userId", list.UserId);
         cmd.Parameters.AddWithValue("@listName", list.ListName);
 

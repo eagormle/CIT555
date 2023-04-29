@@ -54,7 +54,14 @@ namespace PackAPI.Controllers
             };
 
             await _listRepository.AddAsync(list);
-            return CreatedAtAction(nameof(GetListById), new { id = list.ListId }, list);
+            //return CreatedAtAction(nameof(GetListById), new { id = list.ListId }, list);
+            return new JsonResult(new
+            {
+                Message = "List created successfully!",
+                list.ListId,
+                list.UserId,
+                list.ListName,
+            });
         }
 
         [HttpPut("{id}")]
