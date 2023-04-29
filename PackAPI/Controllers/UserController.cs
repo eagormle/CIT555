@@ -31,20 +31,14 @@ namespace PackAPI.Controllers
             {
                 var user = await _userRepository.GetByUsernameAsync(request.Username);
 
-                if (user != null && _userService.ValidatePassword(request.Password, user.PasswordSalt, user.PasswordHash))
-                {
-                    var token = _userService.GenerateJwtToken(user);
-
-                    return new JsonResult(new
+                return user != null && _userService.ValidatePassword(request.Password, user.PasswordSalt, user.PasswordHash)
+                    ? new JsonResult(new
                     {
                         Message = "Login successful",
-                        Token = token
-                    });
-                }
-                else
-                {
-                    return Unauthorized("Invalid username or password");
-                }
+                        Token = _userService.GenerateJwtToken(user)
+                    })
+                    : Unauthorized("Invalid username or password");
+
             }
             catch (Exception ex)
             {
@@ -59,12 +53,7 @@ namespace PackAPI.Controllers
         {
             var user = await _userRepository.GetByIdAsync(id);
 
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(user);
+            return user != null ? Ok(user) : NotFound();
         }
 
         //[HttpPost]
