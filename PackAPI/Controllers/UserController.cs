@@ -29,9 +29,9 @@ namespace PackAPI.Controllers
         {
             try
             {
-                var user = await _userRepository.GetByUsernameAsync(request.Username);
+                var user = await _userRepository.GetByUsernameAsync(request.Username!);
 
-                return user != null && _userService.ValidatePassword(request.Password, user.PasswordSalt, user.PasswordHash)
+                return user != null && _userService.ValidatePassword(request.Password!, user.PasswordSalt!, user.PasswordHash!)
                     ? new JsonResult(new
                     {
                         Message = "Login successful",
@@ -84,10 +84,10 @@ namespace PackAPI.Controllers
                 // Generate a new salt and hash for the password
                 byte[] salt;
                 byte[] hash;
-                using (var pbkdf2 = new Rfc2898DeriveBytes(request.Password, 16, 10000))
+                using (var pbkdf2 = new Rfc2898DeriveBytes(request.Password!, PasswordHasherConstants.SaltByteSize, PasswordHasherConstants.IterationCount, HashAlgorithmName.SHA256))
                 {
                     salt = pbkdf2.Salt;
-                    hash = pbkdf2.GetBytes(32);
+                    hash = pbkdf2.GetBytes(PasswordHasherConstants.HashByteSize);
                 }
                 user.PasswordSalt = salt;
                 user.PasswordHash = hash;
@@ -98,7 +98,7 @@ namespace PackAPI.Controllers
                 {
                     Message = "User created successfully!",
                     user.UserId,
-                    user.Username
+                    user.Username,
                 });
             }
             catch (Exception ex)
