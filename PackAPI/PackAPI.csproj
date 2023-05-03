@@ -30,7 +30,6 @@
   <ItemGroup>
     <Folder Include="Controllers\" />
     <Folder Include="Settings\" />
-    <Folder Include="Utils\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Interfaces\._ICommentDislikeRepository.cs" />

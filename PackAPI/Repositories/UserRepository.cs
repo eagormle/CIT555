@@ -13,7 +13,7 @@ public class UserRepository : IUserRepository
     {
         _connectionString = settings.ConnectionString;
     }
-
+    
     public async Task<User> GetByIdAsync(Guid id)
     {
         using var connection = new SqlConnection(_connectionString);

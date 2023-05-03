@@ -1,6 +1,8 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Azure.Core;
+using Microsoft.IdentityModel.Tokens;
 using PackAPI.Interfaces;
 using PackAPI.Models;
+using PackAPI.Utils;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -18,9 +20,9 @@ public class UserService : IUserService
     public bool ValidatePassword(string password, byte[] salt, byte[] hash)
     {
         // Validate the password by comparing the hash of the supplied password with the stored hash
-        using (var pbkdf2 = new Rfc2898DeriveBytes(password, salt, 10000))
+        using (var pbkdf2 = new Rfc2898DeriveBytes(password, salt, PasswordHasherConstants.IterationCount, HashAlgorithmName.SHA256))
         {
-            var computedHash = pbkdf2.GetBytes(32);
+            var computedHash = pbkdf2.GetBytes(PasswordHasherConstants.HashByteSize);
             return computedHash.SequenceEqual(hash);
         }
     }
