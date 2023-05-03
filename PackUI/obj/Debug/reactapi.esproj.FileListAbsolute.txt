@@ -1,2 +1,0 @@
-C:\Users\egromley\Desktop\Playground2\PackUI\obj\Debug\PackUI.esproj.SuggestedBindingRedirects.cache
-C:\Users\egromley\Desktop\Playground2\PackUI\obj\Debug\PackUI.esproj.CoreCompileInputs.cache

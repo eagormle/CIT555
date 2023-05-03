@@ -1,11 +1,7 @@
 using PackAPI.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
 using Microsoft.Extensions.Options;
 using PackAPI.Settings;
-using Microsoft.Extensions.Configuration;
-using PackAPIAPI.Models;
-using PackAPI.Repositories;
 
 namespace PackAPI
 {
@@ -40,15 +36,6 @@ namespace PackAPI
 
             builder.Services.AddTransient<IUserRepository, UserRepository>();
             builder.Services.AddTransient<IUserService, UserService>();
-            builder.Services.AddTransient<IListRepository>(provider =>
-                new ListRepository(builder.Configuration.GetConnectionString("DefaultConnection")));
-            builder.Services.AddTransient<IListBodyRepository, ListBodyRepository>();
-            builder.Services.AddTransient<ICommentRepository, CommentRepository>();
-            //builder.Services.AddTransient<IReplyRepository, ReplyRepository>();
-            builder.Services.AddTransient<ICommentLikeRepository, CommentLikeRepository>();
-            //builder.Services.AddTransient<ICommentDislikeRepository, CommentDislikeRepository>();
-            //builder.Services.AddTransient<IReplyLikeRepository, ReplyLikeRepository>();
-            //builder.Services.AddTransient<IReplyDislikeRepository, ReplyDislikeRepository>();
 
             var app = builder.Build();
 
